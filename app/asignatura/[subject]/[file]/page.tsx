@@ -71,7 +71,7 @@ export default function DocumentPage({
             <Link href="/" className="logo">
               <Image src="/prometeo.webp" alt="Prometeo" width={50} height={50} />
             </Link>
-            <p className="subtitle">FP Prometeo - Temario Digital</p>
+            <p className="subtitle">Temario Digital</p>
           </div>
         </div>
       </header>
