@@ -1,0 +1,127 @@
+'use client';
+
+import { useState, useEffect, use } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
+import { useAuth } from '../../../context/AuthContext';
+
+interface FileContent {
+  content: string;
+  title: string;
+  filename: string;
+}
+
+const subjectNames: Record<string, string> = {
+  'programacion': 'Programación',
+  'bases-de-datos': 'Bases de Datos',
+  'sistemas-informaticos': 'Sistemas Informáticos',
+  'entornos-de-desarrollo': 'Entornos de Desarrollo',
+  'lenguajes-de-marcas': 'Lenguajes de Marcas',
+};
+
+export default function DocumentPage({ 
+  params 
+}: { 
+  params: Promise<{ subject: string; file: string }> 
+}) {
+  const { subject, file } = use(params);
+  const [document, setDocument] = useState<FileContent | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const { isAuthenticated } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      router.push('/login');
+      return;
+    }
+
+    fetch(`/api/subjects/${subject}/${file}`)
+      .then(res => {
+        if (!res.ok) throw new Error('Documento no encontrado');
+        return res.json();
+      })
+      .then(data => {
+        setDocument(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, [isAuthenticated, router, subject, file]);
+
+  if (!isAuthenticated) {
+    return null;
+  }
+
+  const subjectName = subjectNames[subject] || subject;
+
+  return (
+    <>
+      <header className="header">
+        <div className="container">
+          <div className="header-content">
+            <Link href="/" className="logo">📚 plataforma de libros</Link>
+            <p className="subtitle">FP Prometeo - Temario Digital</p>
+          </div>
+        </div>
+      </header>
+
+      <main className="main-content">
+        <div className="container view">
+          <div className="breadcrumb">
+            <Link href="/">Inicio</Link>
+            <span className="breadcrumb-separator">›</span>
+            <Link href={`/asignatura/${subject}`}>{subjectName}</Link>
+            <span className="breadcrumb-separator">›</span>
+            <span className="breadcrumb-current">{document?.title || 'Documento'}</span>
+          </div>
+
+          {loading ? (
+            <div className="loading">
+              <div className="spinner"></div>
+            </div>
+          ) : error ? (
+            <div className="empty-state">
+              <p>{error}</p>
+              <Link href={`/asignatura/${subject}`} className="btn btn-primary" style={{ marginTop: '1rem' }}>
+                Volver a la asignatura
+              </Link>
+            </div>
+          ) : document && (
+            <div className="markdown-container">
+              <div className="markdown-content">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeRaw]}
+                >
+                  {document.content}
+                </ReactMarkdown>
+              </div>
+            </div>
+          )}
+
+          <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <Link href={`/asignatura/${subject}`} className="btn btn-back">
+              ← Volver a {subjectName}
+            </Link>
+            <Link href="/" className="btn btn-secondary">
+              🏠 Inicio
+            </Link>
+          </div>
+        </div>
+      </main>
+
+      <footer className="footer">
+        <div className="container">
+          <p>FP Prometeo - Plataforma de Libros © 2024</p>
+        </div>
+      </footer>
+    </>
+  );
+}
