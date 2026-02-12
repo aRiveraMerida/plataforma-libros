@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useAuth } from '../context/AuthContext';
 
 export default function LoginPage() {
@@ -30,8 +31,9 @@ export default function LoginPage() {
   return (
     <div className="login-container">
       <div className="login-card">
-        <div className="login-logo">📚</div>
-        <h1 className="login-title">Plataforma de Libros</h1>
+        <div className="login-logo">
+          <Image src="/prometeo.webp" alt="Prometeo" width={80} height={80} />
+        </div>
         <p className="login-subtitle">FP Prometeo - Acceso al temario</p>
         
         <form onSubmit={handleSubmit} className="login-form">

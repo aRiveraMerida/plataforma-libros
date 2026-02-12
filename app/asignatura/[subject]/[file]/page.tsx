@@ -3,6 +3,7 @@
 import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
@@ -67,7 +68,9 @@ export default function DocumentPage({
       <header className="header">
         <div className="container">
           <div className="header-content">
-            <Link href="/" className="logo">📚 plataforma de libros</Link>
+            <Link href="/" className="logo">
+              <Image src="/prometeo.webp" alt="Prometeo" width={50} height={50} />
+            </Link>
             <p className="subtitle">FP Prometeo - Temario Digital</p>
           </div>
         </div>

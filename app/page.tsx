@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useAuth } from './context/AuthContext';
 
 interface Subject {
@@ -47,7 +48,9 @@ export default function Home() {
       <header className="header">
         <div className="container">
           <div className="header-content">
-            <h1 className="logo">📚 plataforma de libros</h1>
+            <div className="logo">
+              <Image src="/prometeo.webp" alt="Prometeo" width={50} height={50} />
+            </div>
             <p className="subtitle">FP Prometeo - Temario Digital</p>
           </div>
         </div>
