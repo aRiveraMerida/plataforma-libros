@@ -17,6 +17,7 @@ const subjectNames: Record<string, string> = {
   'sistemas-informaticos': 'Sistemas Informáticos',
   'entornos-de-desarrollo': 'Entornos de Desarrollo',
   'lenguajes-de-marcas': 'Lenguajes de Marcas',
+  'Implantacion-de-sistemas-operativos': 'Implantación de Sistemas Operativos',
 };
 
 export default function SubjectPage({ params }: { params: Promise<{ subject: string }> }) {
