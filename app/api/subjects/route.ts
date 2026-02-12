@@ -10,6 +10,7 @@ const subjectIcons: Record<string, string> = {
   'sistemas-informaticos': '🖥️',
   'entornos-de-desarrollo': '⚙️',
   'lenguajes-de-marcas': '🌐',
+  'Implantacion-de-sistemas-operativos': '🖥️',
 };
 
 const subjectNames: Record<string, string> = {
@@ -18,6 +19,7 @@ const subjectNames: Record<string, string> = {
   'sistemas-informaticos': 'Sistemas Informáticos',
   'entornos-de-desarrollo': 'Entornos de Desarrollo',
   'lenguajes-de-marcas': 'Lenguajes de Marcas',
+  'Implantacion-de-sistemas-operativos': 'Implantación de Sistemas Operativos',
 };
 
 export async function GET() {
